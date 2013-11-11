@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_filter :ensure_logged_in, :only => [:show]
   def index
     @products = Product.all
   end
@@ -16,7 +17,7 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(params[:product])
+    @product = Product.new(product_params)
 
     if @product.save
       redirect_to products_url
@@ -39,5 +40,12 @@ class ProductsController < ApplicationController
     @product = Product.find(params[:id])
     @product.destroy
     redirect_to products_path
+  end
+
+  private
+
+  # needs to return a hash, where certain attributes are permitted (whitelist)
+  def product_params
+    params.require(:product).permit(:name, :description, :price_in_cents)
   end
 end
