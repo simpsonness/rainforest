@@ -4,6 +4,9 @@
 
 <% @products.each do |product| %>
 
-  <p><%= product[:name] %> , <%= product[:description] %>, <%= product[:price_in_cents] %>
+  <p>
+    <%= link_to product.name, "/products/#{product.id}" %> , <%= product[:description] %>, <%= product[:price_in_cents] %>
+  </p>
+
 
     <% end %>

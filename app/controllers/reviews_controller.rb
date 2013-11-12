@@ -3,9 +3,12 @@ class ReviewsController < ApplicationController
 
   def show
     @review = Review.find(params[:id])
+
   end
 
   def create
+    load_product
+    
     @review = @product.reviews.build(review_params)
     @review.user_id = current_user.id
     if @review.save
@@ -26,6 +29,8 @@ class ReviewsController < ApplicationController
   def edit
   end
 
+
+
   private
   def review_params
     params.require(:review).permit(:comment, :product_id)
@@ -34,4 +39,6 @@ class ReviewsController < ApplicationController
   def load_product
     @product = Product.find(params[:product_id])
   end
+
+  
 end
